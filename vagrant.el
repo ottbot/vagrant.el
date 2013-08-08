@@ -16,6 +16,44 @@
   (interactive)
   (vagrant-command "vagrant destroy"))
 
+(defun vagrant-reload ()
+  "Reload the vagrant box"
+  (interactive)
+  (vagrant-command "vagrant reload"))
+
+(defun vagrant-resume ()
+  "Resume the vagrant box"
+  (interactive)
+  (vagrant-command "vagrant resume"))
+
+(defun vagrant-ssh ()
+  "SSH to the vagrant box"
+  (interactive)
+  (vagrant-command "vagrant ssh"))
+
+(defun vagrant-status ()
+  "Show the vagrant box status"
+  (interactive)
+  (vagrant-command "vagrant status"))
+
+(defun vagrant-suspend ()
+  "Suspend the vagrant box"
+  (interactive)
+  (vagrant-command "vagrant suspend"))
+
+(defun vagrant-halt ()
+  "Halt the vagrant box"
+  (interactive)
+  (vagrant-command "vagrant halt"))
+
+(defun vagrant-edit ()
+  "Edit the Vagrantfile"
+  (interactive)
+  (setq vagrant-dir (vagrant-locate-vagrantfile))
+  (when vagrant-dir
+    (find-file (concat vagrant-dir "/Vagrantfile"))))
+
+
 (defun* vagrant-locate-vagrantfile (&optional (dir default-directory))
   (let ((has-vagrantfile (directory-files dir nil "^Vagrantfile$"))
         (is-root (equal dir "/")))
