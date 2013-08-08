@@ -21,78 +21,77 @@
 ;; `vagrant X` in the shell. An exception is vagrant-edit, which will
 ;; open the Vagrantfile for editing.
 
-(defvar vagrant-dir)
+;;; Code:
 
+;;;###autoload
 (defun vagrant-up ()
-  "Bring up the vagrant box"
+  "Bring up the vagrant box."
   (interactive)
   (vagrant-command "vagrant up"))
 
+;;;###autoload
 (defun vagrant-provision ()
-  "Provision the vagrant box"
+  "Provision the vagrant box."
   (interactive)
   (vagrant-command "vagrant provision"))
 
+;;;###autoload
 (defun vagrant-destroy ()
-  "Destroy the vagrant box"
+  "Destroy the vagrant box."
   (interactive)
   (vagrant-command "vagrant destroy"))
 
+;;;###autoload
 (defun vagrant-reload ()
-  "Reload the vagrant box"
+  "Reload the vagrant box."
   (interactive)
   (vagrant-command "vagrant reload"))
 
+;;;###autoload
 (defun vagrant-resume ()
-  "Resume the vagrant box"
+  "Resume the vagrant box."
   (interactive)
   (vagrant-command "vagrant resume"))
 
+;;;###autoload
 (defun vagrant-ssh ()
-  "SSH to the vagrant box"
+  "SSH to the vagrant box."
   (interactive)
   (vagrant-command "vagrant ssh"))
 
+;;;###autoload
 (defun vagrant-status ()
-  "Show the vagrant box status"
+  "Show the vagrant box status."
   (interactive)
   (vagrant-command "vagrant status"))
 
+;;;###autoload
 (defun vagrant-suspend ()
-  "Suspend the vagrant box"
+  "Suspend the vagrant box."
   (interactive)
   (vagrant-command "vagrant suspend"))
 
+;;;###autoload
 (defun vagrant-halt ()
-  "Halt the vagrant box"
+  "Halt the vagrant box."
   (interactive)
   (vagrant-command "vagrant halt"))
 
+;;;###autoload
 (defun vagrant-edit ()
-  "Edit the Vagrantfile"
+  "Edit the Vagrantfile."
   (interactive)
-  (setq vagrant-dir (vagrant-locate-vagrantfile))
-  (when vagrant-dir
-    (find-file (concat vagrant-dir "/Vagrantfile"))))
+  (find-file (vagrant-locate-vagrantfile)))
 
 
-(defun* vagrant-locate-vagrantfile (&optional (dir default-directory))
-  (let ((has-vagrantfile (directory-files dir nil "^Vagrantfile$"))
-        (is-root (equal dir "/")))
-    (cond
-     (has-vagrantfile dir)
-     (is-root
-      (print (format
-              "No Vagrantfile found in either %s or any parent directory!"
-              default-directory))
-      nil)
-     ((vagrant-locate-vagrantfile (expand-file-name ".." dir))))))
+(defun vagrant-locate-vagrantfile (&optional dir)
+  "Find Vagrantfile for DIR."
+  (or (locate-dominating-file (or dir default-directory) "Vagrantfile")
+      (error "No Vagrantfile found in %s or any parent directory" dir)))
 
 (defun vagrant-command (cmd)
-  "Run a vagrant command in an async buffer"
-  (setq vagrant-dir (vagrant-locate-vagrantfile))
-  (when vagrant-dir
-    (cd vagrant-dir)
+  "Run the vagrant command CMD in an async buffer."
+  (let ((default-directory (file-name-directory (vagrant-locate-vagrantfile))))
     (async-shell-command cmd "*Vagrant*")))
 
 (provide 'vagrant)
