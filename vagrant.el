@@ -5,6 +5,12 @@
   (interactive)
   (vagrant-command "vagrant up"))
 
+
+(defun vagrant-provision ()
+  "Provision the vagrant box"
+  (interactive)
+  (vagrant-command "vagrant provision"))
+
 (defun* vagrant-locate-vagrantfile (&optional (dir default-directory))
   (let ((has-vagrantfile (directory-files dir nil "^Vagrantfile$"))
         (is-root (equal dir "/")))
