@@ -21,6 +21,7 @@
 ;; `vagrant X` in the shell. An exception is vagrant-edit, which will
 ;; open the Vagrantfile for editing.
 
+(defvar vagrant-dir)
 
 (defun vagrant-up ()
   "Bring up the vagrant box"
