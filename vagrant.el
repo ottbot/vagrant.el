@@ -11,6 +11,11 @@
   (interactive)
   (vagrant-command "vagrant provision"))
 
+(defun vagrant-destroy ()
+  "Destroy the vagrant box"
+  (interactive)
+  (vagrant-command "vagrant destroy"))
+
 (defun* vagrant-locate-vagrantfile (&optional (dir default-directory))
   (let ((has-vagrantfile (directory-files dir nil "^Vagrantfile$"))
         (is-root (equal dir "/")))
