@@ -1,10 +1,30 @@
+;;; vagrant.el --- Manage a vagrant box from emacs
 
+;;; Version: 0.5.0
+;;; Author: Robert Crim <rob@servermilk.com>
+;;; Url: https://github.com/ottbot/vagrant.el
+;;; Keywords: vagrant chef
+;;; Created: 08 August 2013
+
+;;; Commentary:
+
+;; This package lets you send vagrant commands while working within a
+;; project containing a Vagrantfile.
+
+;; It will traverse the directory tree until a Vagrantfile is found
+;; and assume this is the box you want to work with. It can be handy
+;; to bring a box up, (re)provision, or even ssh to without leaving
+;; emacs.
+
+;; The command vagrant-up will run 'vagrant up' in a shell, other
+;; commands follow the pattern vagrant-X runs 'vagrant X'. An
+;; exception is vagrant-edit, which will open the Vagrantfile for
+;; editing.
 
 (defun vagrant-up ()
   "Bring up the vagrant box"
   (interactive)
   (vagrant-command "vagrant up"))
-
 
 (defun vagrant-provision ()
   "Provision the vagrant box"
@@ -74,3 +94,5 @@
     (async-shell-command cmd "*Vagrant*")))
 
 (provide 'vagrant)
+
+;;; vagrant.el ends here
