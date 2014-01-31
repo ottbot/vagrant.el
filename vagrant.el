@@ -83,11 +83,14 @@
   (interactive)
   (find-file (vagrant-locate-vagrantfile)))
 
+(defvar-local vagrant-vagrantfile nil
+  "Default path to Vagrantfile")
 
 (defun vagrant-locate-vagrantfile (&optional dir)
   "Find Vagrantfile for DIR."
   (or (locate-dominating-file (or dir default-directory) "Vagrantfile")
-      (error "No Vagrantfile found in %s or any parent directory" dir)))
+      (or vagrant-vagrantfile
+          (error "No Vagrantfile found in %s or any parent directory" dir))))
 
 (defun vagrant-command (cmd)
   "Run the vagrant command CMD in an async buffer."
