@@ -94,8 +94,20 @@
 
 (defun vagrant-command (cmd)
   "Run the vagrant command CMD in an async buffer."
-  (let ((default-directory (file-name-directory (vagrant-locate-vagrantfile))))
-    (async-shell-command cmd "*Vagrant*")))
+  (let ((default-directory (file-name-directory (vagrant-locate-vagrantfile)))
+        (name (if current-prefix-arg
+                  (ido-completing-read "Vagrant box: " (vagrant-box-list)))))
+    (async-shell-command (if name (concat cmd " " name) cmd) "*Vagrant*")))
+
+(defun vagrant-box-list ()
+  "List of vagrant box names."
+  (let ((dir ".vagrant/machines/"))
+    (delq nil
+          (mapcar (lambda (name)
+                    (and (not (member name '("." "..")))
+                         (file-directory-p (concat dir name))
+                         name))
+                  (directory-files dir)))))
 
 (provide 'vagrant)
 
