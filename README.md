@@ -1,5 +1,5 @@
 # vagrant.el
-
+[![MELPA Stable](http://stable.melpa.org/packages/vagrant-badge.svg)](http://stable.melpa.org/#/vagrant)
 ## Synopsis
 
 Manage Vagrant boxes from Emacs.
