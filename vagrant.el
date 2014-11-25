@@ -96,7 +96,7 @@
   "Run the vagrant command CMD in an async buffer."
   (let ((default-directory (file-name-directory (vagrant-locate-vagrantfile)))
         (name (if current-prefix-arg
-                  (ido-completing-read "Vagrant box: " (vagrant-box-list)))))
+                  (completing-read "Vagrant box: " (vagrant-box-list)))))
     (async-shell-command (if name (concat cmd " " name) cmd) "*Vagrant*")))
 
 (defun vagrant-box-list ()
