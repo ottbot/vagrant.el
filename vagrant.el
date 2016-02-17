@@ -26,12 +26,15 @@
   "Customization group for `vagrant.el'."
   :group 'tools)
 
+(defcustom vagrant-up-options ""
+  "Options to run vagrant up command"
+  :group 'vagrant)
 
 ;;;###autoload
 (defun vagrant-up ()
   "Bring up the vagrant box."
   (interactive)
-  (vagrant-command "vagrant up"))
+  (vagrant-command (concat "vagrant up " vagrant-up-options)))
 
 ;;;###autoload
 (defun vagrant-provision ()
