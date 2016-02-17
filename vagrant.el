@@ -22,6 +22,10 @@
 ;; open the Vagrantfile for editing.
 
 ;;; Code:
+(defgroup vagrant nil
+  "Customization group for `vagrant.el'."
+  :group 'tools)
+
 
 ;;;###autoload
 (defun vagrant-up ()
