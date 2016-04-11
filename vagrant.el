@@ -1,6 +1,6 @@
 ;;; vagrant.el --- Manage a vagrant box from emacs
 
-;;; Version: 0.5.2
+;;; Version: 0.5.3
 ;;; Author: Robert Crim <rob@servermilk.com>
 ;;; Url: https://github.com/ottbot/vagrant.el
 ;;; Keywords: vagrant chef
