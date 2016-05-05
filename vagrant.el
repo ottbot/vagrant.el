@@ -106,7 +106,7 @@
 
 (defun vagrant-command (cmd)
   "Run the vagrant command CMD in an async buffer."
-  (let* ((default-directory (file-name-directory (vagrant-locate-vagrantfile vagrant-project-directory)))
+  (let* ((default-directory (file-name-directory (vagrant-locate-vagrantfile)))
          (name (if current-prefix-arg
                    (completing-read "Vagrant box: " (vagrant-box-list)))))
     (async-shell-command (if name (concat cmd " " name) cmd) "*Vagrant*")))
