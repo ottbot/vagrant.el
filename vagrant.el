@@ -90,6 +90,12 @@
   (vagrant-command "vagrant halt"))
 
 ;;;###autoload
+(defun vagrant-rsync ()
+  "Rsync the vagrant box."
+  (interactive)
+  (vagrant-command "vagrant rsync"))
+
+;;;###autoload
 (defun vagrant-edit ()
   "Edit the Vagrantfile."
   (interactive)
