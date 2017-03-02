@@ -3,6 +3,8 @@
 ;;; Version: 0.6.2
 ;;; Author: Robert Crim <rob@servermilk.com>
 ;;; Url: https://github.com/ottbot/vagrant.el
+;;; Package-Version: 20170219.256
+;;; Package-Requires: ((s "1.10.0"))
 ;;; Keywords: vagrant chef
 ;;; Created: 08 August 2013
 
@@ -22,6 +24,9 @@
 ;; open the Vagrantfile for editing.
 
 ;;; Code:
+
+(require 's)
+
 (defgroup vagrant nil
   "Customization group for `vagrant.el'."
   :group 'tools)
@@ -38,8 +43,10 @@
 ;;;###autoload
 (defun vagrant-up ()
   "Bring up the vagrant box."
-  (interactive)
-  (vagrant-command (concat "vagrant up " vagrant-up-options)))
+  (interactive
+   (let* ((provider (completing-read "Provider: " (provider-list)))
+	  (options (concat "--provider=" provider)))
+     (vagrant-command (concat "vagrant up " options)))))
 
 ;;;###autoload
 (defun vagrant-provision ()
@@ -126,6 +133,27 @@
                          (file-directory-p (concat dir name))
                          name))
                   (directory-files dir)))))
+
+(defun read-lines (filepath)
+  (with-temp-buffer
+    (insert-file-contents filepath)
+    (s-lines (buffer-string))))
+
+(defun provider-name (line)
+  (let* ((position-in-line 1)
+	 (raw-string (nth position-in-line
+			  (s-split " " (s-trim line)))))
+    (s-chop-prefix ":" raw-string)))
+
+(defun provider-lines (vagrantfile)
+  (remove-if-not
+   #'(lambda (line) (s-contains? "config.vm.provider" line))
+   (read-lines vagrantfile)))
+
+(defun provider-list ()
+  (let ((vagrantfile (concat (vagrant-locate-vagrantfile) "Vagrantfile")))
+    (mapcar #'provider-name
+	    (provider-lines vagrantfile))))
 
 (provide 'vagrant)
 
