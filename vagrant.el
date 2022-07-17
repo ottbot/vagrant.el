@@ -28,7 +28,8 @@
 
 (defcustom vagrant-up-options ""
   "Options to run vagrant up command"
-  :group 'vagrant)
+  :group 'vagrant
+  :type 'string)
 
 (defcustom vagrant-project-directory "~/vagrant"
   "The path to a Vagrant sandbox."
